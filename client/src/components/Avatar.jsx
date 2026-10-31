@@ -1,13 +1,12 @@
 import Image from "./Image.jsx";
 
-const Avatar = ({ photo, firstName, lastName, size }) => {
+const Avatar = ({ firstName, lastName }) => {
   return (
     <Image
-      key={photo}
-      photo={photo}
+      fetchOwn
       firstName={firstName}
       lastName={lastName}
-      size={size}
+      className="ring-2 ring-base-200 ring-offset-2 ring-offset-base-100"
     />
   );
 };
