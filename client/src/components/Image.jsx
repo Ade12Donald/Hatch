@@ -6,12 +6,15 @@ export default function Image({
   firstName = "",
   lastName = "",
   size = "w-10",
+  textSize = "text-sm",
+  settings = true,
+  className = "",
 }) {
   const [broken, setBroken] = useState(false);
   const closeMenu = () => document.activeElement?.blur();
 
   const initials =
-    `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase() || "?";
+    `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase() || "Log In";
 
   const hasPhoto =
     typeof photo === "string" &&
@@ -23,7 +26,7 @@ export default function Image({
   const avatar =
     hasPhoto && !broken ? (
       <div className="avatar">
-        <div className={`${size} rounded-full`}>
+        <div className={`${size} rounded-full ${className}`}>
           <img
             src={photo}
             alt={`${firstName} ${lastName}`}
@@ -33,13 +36,15 @@ export default function Image({
       </div>
     ) : (
       <div className="avatar avatar-placeholder">
-        <div className={`${size} rounded-full bg-neutral text-neutral-content`}>
-          <span className="text-sm">{initials}</span>
+        <div
+          className={`${size} rounded-full bg-neutral text-neutral-content ${className}`}
+        >
+          <span className={textSize}>{initials}</span>
         </div>
       </div>
     );
 
-  return (
+  return settings ? (
     <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="cursor-pointer">
         {avatar}
@@ -59,5 +64,7 @@ export default function Image({
         </li>
       </ul>
     </div>
+  ) : (
+    <div>{avatar}</div>
   );
 }
