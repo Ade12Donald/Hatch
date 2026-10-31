@@ -27,5 +27,6 @@ route.patch(
   upload.single("profilePicture"),
   updateProfilePicture,
 );
+route.get("/profile-picture", getProfilePicture);
 
 export default route;
