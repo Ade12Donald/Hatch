@@ -172,13 +172,11 @@ export const updateProfilePicture = async (req, res, next) => {
     const { ID: userId } = req.user;
     if (!req.file) throw new AppError("Please Upload an Image", 400);
 
-    const result = await uploadToCloudinary(req.file.buffer);
-
     const userExist = await userModel.findById(userId);
-    if (!userExist) {
-      cloudinary.uploader.destroy(result.public_id);
-      throw new AppError("User Not Found", 404);
-    }
+
+    if (!userExist) throw new AppError("User Not Found", 404);
+
+    const result = await uploadToCloudinary(req.file.buffer);
     const oldPublicId = userExist.profilePicture?.publicId;
     const updatedUser = await userModel.findByIdAndUpdate(
       userId,
@@ -188,7 +186,7 @@ export const updateProfilePicture = async (req, res, next) => {
           "profilePicture.publicId": result.public_id,
         },
       },
-      { new: true },
+      { returnDocument: "after" },
     );
 
     if (oldPublicId) {
@@ -200,7 +198,7 @@ export const updateProfilePicture = async (req, res, next) => {
     }
     return res.status(200).json({
       message: "Profile picture updated successfully",
-      user: updatedUser,
+      profilePicture: updatedUser.profilePicture,
     });
   } catch (error) {
     logger.error(error);
@@ -211,12 +209,12 @@ export const updateProfilePicture = async (req, res, next) => {
 export const getProfilePicture = async (req, res, next) => {
   try {
     const { ID: userId } = req.user;
-    const userData = await userModel.findById(userId);
+    const userData = await userModel.findById(userId).select("profilePicture");
+    if (!userData) throw new AppError("User Not Found", 404);
 
-    const profilePicture = userData.profilePicture.url;
     res.status(200).json({
-      message: "profile Picture Fetched Successfully",
-      profilePicture,
+      message: "Profile picture fetched successfully",
+      profilePicture: userData.profilePicture?.url ?? null,
     });
   } catch (error) {
     next(error);
