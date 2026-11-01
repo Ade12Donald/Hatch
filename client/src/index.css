@@ -14,6 +14,8 @@
   --color-base-content: oklch(16.799% 0.00203 106.767);
   --color-primary: #334155; /* slate-700 */
   --color-primary-content: #f8fafc;
+  --color-error: #dc2626;
+  --color-error-content: #ffffff;
 }
 
 /* dark: applies only when the toggle is checked, and is more specific so it wins */
@@ -22,8 +24,10 @@
   --color-base-200: oklch(55.4% 0.046 257.417);
   --color-base-300: oklch(27.8% 0.033 256.848);
   --color-base-content: #e5e7eb;
-  --color-primary: #cbd5e1; /* slate-300 */
+  --color-primary: #cbd5e1;
   --color-primary-content: #0f172a;
+  --color-error: #f87171;
+  --color-error-content: #450a0a;
 }
 
 @theme {
