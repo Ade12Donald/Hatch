@@ -22,8 +22,9 @@ const MONGO_URI = process.env.COMPASS_URI;
 //MIDDLEWARE
 app.use(
   cors({
-    origin: "http://localhost:5173", // your exact frontend address
-    credentials: true, // allow cookies (your JWT)
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   }),
 );
 app.use(cookieParser());
