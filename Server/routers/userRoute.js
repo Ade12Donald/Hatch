@@ -7,6 +7,7 @@ import {
   updateUser,
   updateProfilePicture,
   getProfilePicture,
+  logOut,
 } from "../controllers/userController.js";
 import { validate } from "../middleware/validateSchema.js";
 import { userSchema } from "../schema/userSchema.js";
@@ -18,6 +19,7 @@ const route = Router();
 
 route.post("/create", validate(userSchema), createUser);
 route.post("/login", validate(loginSchema), loginUser);
+route.post("/logout", logOut);
 route.use(authMiddleware);
 route.get("/get", getUser);
 route.patch("/update", validate(userSchema.partial()), updateUser);
