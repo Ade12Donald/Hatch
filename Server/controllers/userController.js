@@ -47,7 +47,7 @@ export const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const userExist = await userModel.findOne({ email });
+    const userExist = await userModel.findOne({ email }).select("+password");
 
     if (!userExist) throw new AppError("User not Found", 404);
 
@@ -69,7 +69,7 @@ export const loginUser = async (req, res, next) => {
 
 export const getUser = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const { ID: id } = req.user;
 
     const user = await userModel.findById(id);
 
