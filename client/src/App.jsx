@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import { Routes, Route } from "react-router";
-import Layout from "./components/Layout.jsx";
+import Layout from "./components/layout.jsx";
 
 const Home = lazy(() => import("./pages/Home.jsx"));
 const SignUp = lazy(() => import("./pages/signUp.jsx"));
