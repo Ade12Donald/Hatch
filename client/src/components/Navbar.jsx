@@ -46,11 +46,11 @@ const Navbar = () => {
     <div className="sticky top-px z-50 bg-base-100/80 backdrop-blur px-6 py-2">
       <nav className="mt-2 ml-2 flex items-center">
         <div className="avatar avatar-placeholder flex-1 items-center">
-          <div className="bg-neutral text-neutral-content w-8 rounded-full">
+          <div className="bg-neutral text-neutral-content w-10 rounded-full">
             <span className="text-xs">UI</span>
           </div>
-          <NavLink to="/" className="ml-2 text-xl">
-            Skill Swap
+          <NavLink to="/" className="ml-2 text-2xl  font-bold">
+            Hatch
           </NavLink>
         </div>
 
