@@ -31,7 +31,7 @@ const Footer = () => {
           </a>
           <a
             aria-label="Hatch on GitHub"
-            href="https://github.com/Ade12Donald/Skill-Swap"
+            href="https://github.com/Ade12Donald/Hatch"
             target="_blank"
             rel="noopener noreferrer"
             className={iconLink}
