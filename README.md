@@ -1,4 +1,4 @@
-# Skill Swap 🎓
+# Hatch 🎓
 
 Learn together. Teach each other. Grow together.
 
@@ -6,7 +6,7 @@ _Target Audience: Students_
 
 Education is expensive, and learning new skills often comes with financial barriers. But what if we could learn from one another by contributing our knowledge, talents, and abilities?
 
-Skill Swap is a student-focused platform designed to make skill acquisition more accessible by connecting people who want to learn with people who are willing to teach. Through collaboration and knowledge sharing, students can exchange skills without necessarily exchanging money.
+Hatch is a student-focused platform designed to make skill acquisition more accessible by connecting people who want to learn with people who are willing to teach. Through collaboration and knowledge sharing, students can exchange skills without necessarily exchanging money.
 
 _Core Values: Contribution · Learning · Collaboration_
 
@@ -53,9 +53,15 @@ _Core Values: Contribution · Learning · Collaboration_
     npm install
 ```
 
-4. Create a ".env" file in the appropriate backend directory, using ".env.example" as a reference.
+```bash
+    cd ..
+    cd client
+    npm install
+```
 
-5. Configure your environment variables:
+1. Create a ".env" file in the appropriate backend directory, using ".env.example" as a reference.
+
+2. Configure your environment variables:
 
    ```text
    PORT=2000
@@ -63,12 +69,12 @@ _Core Values: Contribution · Learning · Collaboration_
    NODE_ENV=development
    ```
 
-6. Start the application using the appropriate script defined in "package.json".
+3. Start the application using the appropriate script defined in "package.json".
 
 ## 📁 Project Structure
 
 ```text
-SKILL SWAP
+Hatch
 ├──server/
 |   ├── controllers/ # Request handlers and application logic
 |   ├── middleware/ # Request processing and validation
