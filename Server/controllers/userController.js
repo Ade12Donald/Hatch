@@ -87,7 +87,7 @@ export const getUser = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const { ID: id } = req.user;
     const {
       firstName,
       lastName,
@@ -111,10 +111,10 @@ export const updateUser = async (req, res, next) => {
         }
       }
 
-      if (teachTitle.size != dummyTeach.length)
+      if (teachTitle.length != dummyTeach.length)
         throw new AppError("You can't have duplicate skills", 400);
 
-      if (learnTitle.size != dummyLearn.length)
+      if (learnTitle.length != dummyLearn.length)
         throw new AppError("You can't have duplicate skills", 400);
     }
 
