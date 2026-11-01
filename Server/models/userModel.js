@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: [true, "{PATH} is required"],
+      select: false,
     },
     skillToLearn: [
       {
