@@ -2,25 +2,37 @@ import { ZodError } from "zod";
 import { AppError } from "../utils/errorHandling.js";
 import logger from "../utils/logger.js";
 
-export const errorMiddleware = (err, req, res, next) => {
+export const errorMiddleware = (err, req, res) => {
   if (err instanceof ZodError) {
-    return res.status(400).json(
-      err.issues.map((i) => ({
-        field: i.path.join("."),
-        message: i.message,
-      })),
-    );
-  } else if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
-      ERROR: err.message,
-    });
-  } else if (err.code === 11000) {
-    logger.error(err);
+    const errors = {};
+    for (const i of err.issues) {
+      const key = i.path.join(".");
+      if (!errors[key]) errors[key] = i.message;
+    }
     return res.status(400).json({
-      field: Object.keys(err.keyValue)[0],
-      message: `${Object.keys(err.keyValue)[0]} already exist`,
+      status: "error",
+      message: "Please fix the highlighted fields",
+      errors,
     });
-  } else {
-    res.status(500).json({ ERROR: "Internal Server Error" });
   }
+
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
+      status: "error",
+      message: err.message,
+    });
+  }
+
+  if (err.code === 11000) {
+    logger.error(err);
+    const field = Object.keys(err.keyValue)[0];
+    return res.status(409).json({
+      status: "error",
+      message: `${field} already exists`,
+      errors: { [field]: `This ${field} is already taken` },
+    });
+  }
+
+  logger.error(err); // your old else branch never logged unexpected errors
+  res.status(500).json({ status: "error", message: "Internal Server Error" });
 };
