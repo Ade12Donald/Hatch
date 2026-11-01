@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import axios from "axios";
 
 export default function Image({
@@ -15,6 +15,19 @@ export default function Image({
   const [failedSrc, setFailedSrc] = useState(null); // which photo failed to load
   const [ownPhoto, setOwnPhoto] = useState(null);
   const closeMenu = () => document.activeElement?.blur();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:5000/api/user/logout",
+        {},
+        { withCredentials: true },
+      );
+    } finally {
+      navigate("/login", { replace: true });
+    }
+  };
 
   // Fetch the logged-in user's picture (only when fetchOwn is on)
   useEffect(() => {
@@ -94,7 +107,9 @@ export default function Image({
           Settings
         </NavLink>
         <li>
-          <button className="p-0 pt-1">Logout</button>
+          <button className="p-0 pt-1" onClick={handleLogout}>
+            Logout
+          </button>
         </li>
       </ul>
     </div>
