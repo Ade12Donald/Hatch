@@ -220,3 +220,18 @@ export const getProfilePicture = async (req, res, next) => {
     next(error);
   }
 };
+
+export const logOut = async (req, res, next) => {
+  try {
+    res
+      .clearCookie("token", {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .status(200)
+      .json({ status: "successful", message: "Logged out" });
+  } catch (error) {
+    next(error);
+  }
+};
