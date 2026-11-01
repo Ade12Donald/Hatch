@@ -21,8 +21,8 @@ const HomeCard = () => {
           <p className="leading-5.5">
             <span className="font-extrabold">Learn </span> practical skills
             directly from other people. Whether it's programming, design,
-            communication, or another skill, SkillSwap helps you exchange
-            knowledge and learn through shared experience.
+            communication, or another skill, Hatch helps you exchange knowledge
+            and learn through shared experience.
           </p>
           <div className="card-actions justify-end">
             <button className="btn btn-neutral rounded-xl">MORE INFO</button>
@@ -48,9 +48,9 @@ const HomeCard = () => {
           <h2 className="card-title ">COLLABORATE</h2>
           <p className="leading-5.5">
             Work together with your learning partners, exchange ideas, solve
-            problems, and support each other's progress. SkillSwap makes
-            learning more interactive by encouraging people to learn with one
-            another rather than alone.
+            problems, and support each other's progress. Hatch makes learning
+            more interactive by encouraging people to learn with one another
+            rather than alone.
           </p>
           <div className="card-actions justify-end">
             <button className="btn btn-neutral rounded-xl">MORE INFO</button>
