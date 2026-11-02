@@ -30,7 +30,6 @@ const groupSchema = new mongoose.Schema({
   bio: {
     type: String,
     maxlength: [250, "Bio cannot exceed 250 characters."],
-    required: [true, "{PATH} is required"],
   },
 });
 
