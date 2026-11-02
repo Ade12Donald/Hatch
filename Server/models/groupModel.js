@@ -6,6 +6,17 @@ const groupSchema = new mongoose.Schema({
     trim: true,
     required: [true, "{PATH} is required"],
   },
+  lead: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User",
+    required: true,
+    trim: true,
+  },
+  assistant: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "User",
+    trim: true,
+  },
   members: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "User",
