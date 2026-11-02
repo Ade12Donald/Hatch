@@ -6,12 +6,14 @@ import {
   updateGroup,
 } from "../controllers/groupController";
 import authMiddleware from "../middleware/authMiddleware.js";
+import groupSchema from "../schema/groupSchema.js";
+import { validate } from "../middleware/validateSchema.js";
 
 const route = Router();
 
 route.use(authMiddleware);
-route.post("/create", createGroup);
-route.patch("/update", updateGroup);
+route.post("/create", validate(groupSchema), createGroup);
+route.patch("/update", validate(groupSchema), updateGroup);
 route.get("/get", getGroup);
 route.delete("delete", deleteGroup);
 
