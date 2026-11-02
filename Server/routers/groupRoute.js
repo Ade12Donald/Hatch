@@ -1,14 +1,18 @@
 import { Router } from "express";
-import { createGroup } from "../controllers/groupController";
+import {
+  createGroup,
+  deleteGroup,
+  getGroup,
+  updateGroup,
+} from "../controllers/groupController";
 import authMiddleware from "../middleware/authMiddleware.js";
 
 const route = Router();
 
 route.use(authMiddleware);
 route.post("/create", createGroup);
-route.post("/login");
-route.get("/get");
-route.patch("/update");
-route.delete("delete");
+route.patch("/update", updateGroup);
+route.get("/get", getGroup);
+route.delete("delete", deleteGroup);
 
 export default route;
