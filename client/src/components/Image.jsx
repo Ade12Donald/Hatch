@@ -16,6 +16,7 @@ export default function Image({
   const [ownPhoto, setOwnPhoto] = useState(null);
   const closeMenu = () => document.activeElement?.blur();
   const navigate = useNavigate();
+  const [loadingPhoto, setLoadingPhoto] = useState(fetchOwn);
 
   const handleLogout = async () => {
     try {
@@ -41,9 +42,13 @@ export default function Image({
           "http://localhost:5000/api/user/profile-picture",
           { withCredentials: true },
         );
-        if (!ignore) setOwnPhoto(res.data.profilePicture);
+        const pic = res.data.profilePicture;
+        if (!ignore)
+          setOwnPhoto(typeof pic === "string" ? pic : (pic?.url ?? null));
       } catch (err) {
         console.log(err.response?.status, err.response?.data);
+      } finally {
+        if (!ignore) setLoadingPhoto(false);
       }
     };
 
@@ -55,14 +60,14 @@ export default function Image({
   }, [fetchOwn]);
 
   // A passed-in photo wins over the fetched one
-  const src = photo || ownPhoto;
+  const rawPhoto = photo || ownPhoto;
+  const src = typeof rawPhoto === "string" ? rawPhoto : rawPhoto?.url;
 
   // Derived, not stored: broken only if THIS exact photo failed
   const broken = failedSrc === src;
 
   const initials =
-    `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase() || "Log In";
-
+    `${firstName[0] ?? ""}${lastName[0] ?? ""}`.toUpperCase() || "?";
   const hasPhoto =
     typeof src === "string" &&
     src.trim() !== "" &&
@@ -91,10 +96,18 @@ export default function Image({
       </div>
     );
 
+  const shownAvatar = loadingPhoto ? (
+    <div
+      className={`skeleton aspect-square rounded-full ${size} ${className}`}
+    />
+  ) : (
+    avatar
+  );
+
   return settings ? (
     <div className="dropdown dropdown-end">
       <div tabIndex={0} role="button" className="cursor-pointer">
-        {avatar}
+        {shownAvatar}
       </div>
       <ul
         tabIndex={0}
@@ -114,6 +127,6 @@ export default function Image({
       </ul>
     </div>
   ) : (
-    <div>{avatar}</div>
+    <div>{shownAvatar}</div>
   );
 }
