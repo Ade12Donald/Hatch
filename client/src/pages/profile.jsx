@@ -127,6 +127,41 @@ const SkillsBox = ({
   </>
 );
 
+const ProfileSkeleton = () => (
+  <div
+    className="mb-14"
+    role="status"
+    aria-busy="true"
+    aria-label="Loading profile"
+  >
+    {/* picture */}
+    <div className="skeleton w-24 aspect-square rounded-full mx-auto mt-4" />
+
+    <div className="rounded-xl border border-base-200 w-xs p-4 m-auto mt-4 flex flex-col gap-3">
+      <div className="skeleton h-6 w-32 ml-4" /> {/* legend */}
+      {/* label + input pairs: first name, last name, email, age */}
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="flex flex-col gap-2">
+          <div className="skeleton h-4 w-20" />
+          <div className="skeleton h-10 w-full rounded-xl" />
+        </div>
+      ))}
+      {/* the two skills boxes */}
+      {[1, 2].map((i) => (
+        <div key={i} className="flex flex-col gap-2">
+          <div className="skeleton h-4 w-28" />
+          <div className="skeleton h-24 w-full rounded-3xl" />
+        </div>
+      ))}
+      {/* buttons */}
+      <div className="flex justify-end gap-2 mt-2">
+        <div className="skeleton h-10 w-32 rounded-md" />
+        <div className="skeleton h-10 w-20 rounded-md" />
+      </div>
+    </div>
+  </div>
+);
+
 const Profile = () => {
   const [data, setData] = useState({});
   const [initial, setInitial] = useState({});
@@ -258,9 +293,7 @@ const Profile = () => {
     }
   };
 
-  if (loading)
-    return <span className="loading loading-spinner loading-lg m-auto mt-10" />;
-
+  if (loading) return <ProfileSkeleton />;
   return (
     <div className="mb-14">
       <ProfilePicture />
