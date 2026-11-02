@@ -4,8 +4,9 @@ import { AppError } from "../utils/errorHandling";
 
 export const createGroup = async (req, res, next) => {
   try {
+    const { ID: userId } = req.user;
     const { name, bio, members } = req.body;
-    const group = await groupModel.create({ name, bio, members });
+    const group = await groupModel.create({ name, bio, members, lead: userId });
 
     res.status(201).json({
       message: "Successful",
@@ -18,12 +19,21 @@ export const createGroup = async (req, res, next) => {
 
 export const updateGroup = async (req, res, next) => {
   try {
+    const { ID: userId } = req.user;
     const { id: groupId } = req.params;
     const { name, bio, members } = req.body;
 
     if (!mongoose.isValidObjectId(groupId))
       throw new AppError("Invalid Id", 404);
 
+    const groupExist = await groupModel.findById(groupId);
+    if (!groupExist) throw new AppError("Group Not Found", 404);
+
+    const isLead = groupExist.lead.some(
+      (id) => id.toString() === userId.toString(),
+    );
+
+    if (!isLead) throw new AppError("Not Authorized", 403);
     const group = await groupModel.findByIdAndUpdate(
       groupId,
       {
@@ -33,8 +43,6 @@ export const updateGroup = async (req, res, next) => {
       },
       { returnDocument: "after", runValidators: "true" },
     );
-
-    if (!group) throw new AppError("Group Not Found", 404);
 
     res.status(200).json({
       message: "Successful",
@@ -47,7 +55,15 @@ export const updateGroup = async (req, res, next) => {
 
 export const deleteGroup = async (req, res, next) => {
   try {
+    const { ID: userId } = req.user;
     const { id: groupId } = req.params;
+
+    const groupExist = await groupModel.findById(groupId);
+    if (!groupExist) throw new AppError("Group Not Found", 404);
+    if (groupExist.lead.toString() !== userId.ID.toString())
+      throw new AppError("Not Authorized", 403);
+
+    await groupExist.deleteOne();
 
     if (!mongoose.isValidObjectId(groupId))
       throw new AppError("Invalid Id", 404);
