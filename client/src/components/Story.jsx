@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "./Image.jsx";
 
 // placeholder data, swap for your friends list from the API later
@@ -42,7 +42,30 @@ const Story = () => {
   const close = () => setActive(null);
   const next = () => (active + 1 < friends.length ? open(active + 1) : close());
   const prev = () => active > 0 && open(active - 1);
+  const rowRef = useRef(null);
+  const [fade, setFade] = useState({ left: false, right: false });
 
+  const updateFade = () => {
+    const el = rowRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setFade({
+      left: scrollLeft > 4, // scrolled away from the start
+      right: scrollLeft + clientWidth < scrollWidth - 4, // more content still hiding
+    });
+  };
+
+  useEffect(() => {
+    updateFade(); // check on mount
+    window.addEventListener("resize", updateFade);
+    return () => window.removeEventListener("resize", updateFade);
+  }, []);
+
+  const mask = `linear-gradient(to right,
+  ${fade.left ? "transparent" : "black"},
+  black 2rem,
+  black calc(100% - 2rem),
+  ${fade.right ? "transparent" : "black"})`;
   // Escape closes the viewer
   useEffect(() => {
     if (active === null) return;
@@ -59,7 +82,13 @@ const Story = () => {
         <h2 className="font-bold text-lg tracking-wide">Friends</h2>
 
         {/* the row of circles */}
-        <div className="flex gap-4 overflow-x-auto p-2">
+        <div
+          ref={rowRef}
+          onScroll={updateFade}
+          className="flex gap-4 overflow-x-auto p-2"
+          style={{ maskImage: mask, WebkitMaskImage: mask }}
+        >
+          {" "}
           {friends.map((f, i) => (
             <button
               key={f.id}
