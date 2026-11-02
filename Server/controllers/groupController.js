@@ -64,3 +64,23 @@ export const deleteGroup = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getGroup = async (req, res, next) => {
+  try {
+    const { id: groupId } = req.params;
+
+    if (!mongoose.isValidObjectId(groupId))
+      throw new AppError("Invalid Id", 404);
+
+    const group = await groupModel.findById(groupId);
+
+    if (!group) throw new AppError("Group Not Found", 404);
+
+    res.status(200).json({
+      message: "Successful",
+      data: group,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
