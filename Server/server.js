@@ -10,6 +10,7 @@ import "dotenv/config";
 import logger from "./utils/logger.js";
 import userRoute from "./routers/userRoute.js";
 import postRoute from "./routers/userRoute.js";
+import groupRoute from "./routers/groupRoute.js";
 import { errorMiddleware } from "./middleware/errorHandler.js";
 
 //CONFIGURATION
@@ -36,6 +37,7 @@ app.use(
 );
 app.use("/api/user", userRoute);
 app.use("/api/post", postRoute);
+app.use("/api/post", groupRoute);
 
 app.use((req, res) => {
   res.status(404).json({ ERROR: "PAGE NOT FOUND" });
