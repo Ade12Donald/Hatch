@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import groupModel from "../models/groupModel";
-import { AppError } from "../utils/errorHandling";
+import groupModel from "../models/groupModel.js";
+import { AppError } from "../utils/errorHandling.js";
 
 export const createGroup = async (req, res, next) => {
   try {
