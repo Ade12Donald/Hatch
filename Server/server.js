@@ -37,7 +37,7 @@ app.use(
 );
 app.use("/api/user", userRoute);
 app.use("/api/post", postRoute);
-app.use("/api/post", groupRoute);
+app.use("/api/groups", groupRoute);
 
 app.use((req, res) => {
   res.status(404).json({ ERROR: "PAGE NOT FOUND" });
