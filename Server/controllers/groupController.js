@@ -1,12 +1,22 @@
 import mongoose from "mongoose";
 import groupModel from "../models/groupModel.js";
 import { AppError } from "../utils/errorHandling.js";
+import NameToID from "../utils/NameToID.js";
+import userModel from "../models/userModel.js";
 
 export const createGroup = async (req, res, next) => {
   try {
     const { ID: userId } = req.user;
-    const { name, bio, members } = req.body;
-    const group = await groupModel.create({ name, bio, members, lead: userId });
+    const { name, bio, members: membersName } = req.body;
+
+    const members = await NameToID(membersName, userModel, "username");
+
+    const group = await groupModel.create({
+      name,
+      bio,
+      members,
+      lead: userId,
+    });
 
     res.status(201).json({
       message: "Successful",
