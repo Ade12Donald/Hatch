@@ -105,16 +105,16 @@ export const usersGroup = async (req, res, next) => {
   try {
     const { ID: userId } = req.user;
 
-    if (!mongoose.isValidObjectId(userId))
-      throw new AppError("Invalid Id", 404);
-
-    const myGroup = await groupModel.find({ members: userId });
-
-    if (!myGroup) throw new AppError("No Group Found", 404);
+    const myGroups = await groupModel
+      .find({ members: userId })
+      .select("name bio members lead assistant")
+      .populate("members", "lead", "assistant")
+      .lean();
+    if (!myGroups) throw new AppError("No Group Found", 404);
 
     return res.status(200).json({
       status: "Successful",
-      data: myGroup,
+      data: myGroups,
     });
   } catch (error) {
     next(error);
